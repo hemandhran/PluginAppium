@@ -1,0 +1,22 @@
+{
+  "name": "appiumsampleplugin",
+  "version": "1.0.0",
+  "description": "A small Appium 2.0 plugin",
+  "license": "ISC",
+  "author": "Devendran Krishnan",
+  "type": "commonjs",
+  "main": "index.js",
+  "appium": {
+    "pluginName": "SamplePlugin",
+    "mainClass": "SamplePlugin"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@appium/base-plugin": "^2.3.6"
+  },
+  "peerDependencies": {
+    "appium": "^2.18.0"
+  }
+}
