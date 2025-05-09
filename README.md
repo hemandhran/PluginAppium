@@ -1,102 +1,97 @@
-# Appium Plugin Documentation
+A simple Appium 2.x plugin that automatically removes the XCUIElementType prefix from all element type names in the iOS source tree, making your test code and page source easier to read and maintain.
 
-## What is an Appium Plugin?
+Features
+Removes the verbose XCUIElementType prefix from all element type names in the iOS page source.
 
-An Appium plugin is a powerful extension mechanism that allows you to intercept and modify WebDriver commands before they reach the Appium server. This enables custom behavior and additional functionality beyond what's available in standard Appium.
+Works transparently with Appium 2.x and the XCUITest driver.
 
-## Key Features of Appium Plugins
+No impact on element finding or automation logic-only the source tree output is modified for readability.
 
-1. **Command Interception**: Plugins can intercept any WebDriver command and modify its behavior
-2. **Custom Functionality**: Add new commands or modify existing ones
-3. **Extensibility**: Create custom solutions for specific testing needs
-4. **Reusability**: Share plugins across different projects and teams
+Installation
+You can install the plugin globally or locally using npm:
 
-## Types of Appium Plugins
+bash
+npm install -g <your-plugin-package-name>
+Or, for local development:
 
-1. **Driver Plugins**: Extend the capabilities of specific Appium drivers (iOS, Android, etc.)
-2. **Command Plugins**: Modify the behavior of specific WebDriver commands
-3. **Session Plugins**: Add functionality that spans across entire test sessions
-4. **Element Plugins**: Add custom element interaction methods
+bash
+npm install <your-plugin-package-name>
+Usage
+1. Install the Plugin
+Install the plugin as described above.
 
-## How Plugins Work
+2. Register the Plugin with Appium
+Register the plugin with your Appium server:
 
-1. **Command Interception**: When a WebDriver command is sent from the client, plugins can intercept it
-2. **Command Modification**: Plugins can modify the command parameters or behavior
-3. **Custom Processing**: Plugins can add additional processing before or after command execution
-4. **Response Handling**: Plugins can modify the response returned to the client
+bash
+appium plugin install --source=npm <your-plugin-package-name>
+3. Activate the Plugin
+Start the Appium server with your plugin enabled:
 
-## Common Use Cases
+bash
+appium --use-plugins <your-plugin-name>
+Replace <your-plugin-name> with the name specified in your plugin's package.json under the appium.pluginName field.
 
-1. **Custom Element Location**: Add new strategies for finding elements
-2. **Performance Monitoring**: Track command execution times
-3. **Logging and Reporting**: Enhanced logging capabilities
-4. **Security Enhancements**: Add authentication or encryption
-5. **Custom Gestures**: Implement platform-specific gestures
-6. **Error Handling**: Custom error recovery mechanisms
+4. Run Your Tests
+Run your Appium tests as usual. When you retrieve the iOS page source (e.g., via driver.getPageSource()), the returned XML will have all occurrences of XCUIElementType removed from element type names.
 
-## Creating a Plugin
+Example
+Before (default Appium behavior):
 
-To create an Appium plugin, you need to:
+xml
+<XCUIElementTypeWindow>
+  <XCUIElementTypeOther>
+    <XCUIElementTypeButton name="Login"/>
+  </XCUIElementTypeOther>
+</XCUIElementTypeWindow>
+After (with this plugin):
 
-1. Implement the plugin interface
-2. Register the plugin with Appium
-3. Configure the plugin in your test setup
-4. Handle command interception and modification
+xml
+<Window>
+  <Other>
+    <Button name="Login"/>
+  </Other>
+</Window>
+Configuration
+No additional configuration is required. The plugin works out of the box once installed and enabled.
 
-## Example Plugin Structure
+How It Works
+This plugin extends Appium's BasePlugin class and intercepts the iOS source tree XML, removing all instances of the XCUIElementType prefix before returning the source to the client.
 
-```javascript
-class MyCustomPlugin {
-  constructor() {
-    this.name = 'my-custom-plugin';
-  }
+Compatibility
+Appium 2.x
 
-  async handle(next, driver, commandName, ...args) {
-    // Pre-command processing
-    console.log(`Executing command: ${commandName}`);
-    
-    // Execute the original command
-    const result = await next();
-    
-    // Post-command processing
-    console.log(`Command ${commandName} completed`);
-    
-    return result;
-  }
-}
-```
+XCUITest driver for iOS
 
-## This Plug-in purpose
-This plugin will change the way of interacting with elements. 
-For example
-<XCUITypeScroll> -> <Scroll>
-<XCUITypeText> -> <Text>
+Development
+To develop or contribute:
 
-## Best Practices
+Clone this repository.
 
-1. **Keep Plugins Focused**: Each plugin should have a single responsibility
-2. **Error Handling**: Implement proper error handling and recovery
-3. **Performance**: Ensure plugins don't significantly impact test execution time
-4. **Documentation**: Provide clear documentation for plugin usage
-5. **Testing**: Thoroughly test plugins in various scenarios
+Install dependencies:
 
-## Configuration
+bash
+npm install
+Make your changes and run tests as needed.
 
-Plugins can be configured in your Appium server configuration:
+Restart the Appium server after making changes to ensure your updates are picked up.
 
-```javascript
-{
-  "plugins": {
-    "my-custom-plugin": {
-      "enabled": true,
-      "config": {
-        // Plugin-specific configuration
-      }
-    }
-  }
-}
-```
+Publishing
+To make your plugin available to others, publish it to npm:
 
-## Conclusion
+bash
+npm publish
+Users can then install it via the Appium CLI.
 
-Appium plugins provide a powerful way to extend Appium's capabilities and customize it for specific testing needs. They enable teams to create reusable solutions for common testing challenges and implement custom functionality that isn't available in standard Appium.
+Contributing
+Contributions are welcome! Please open issues or pull requests for bug fixes, features, or documentation improvements.
+
+License
+MIT
+
+Resources
+[Appium Plugin Development Guide]
+
+[Appium Official Documentation]
+
+This plugin is not affiliated with or endorsed by the Appium project. For questions or support, please open an issue in this repository.
