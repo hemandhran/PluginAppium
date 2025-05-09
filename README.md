@@ -86,12 +86,8 @@ Users can then install it via the Appium CLI.
 Contributing
 Contributions are welcome! Please open issues or pull requests for bug fixes, features, or documentation improvements.
 
-License
-MIT
-
 Resources
-[Appium Plugin Development Guide]
-
-[Appium Official Documentation]
+Appium Plugin Development Guide
+Appium Official Documentation
 
 This plugin is not affiliated with or endorsed by the Appium project. For questions or support, please open an issue in this repository.
